@@ -30,7 +30,15 @@ public interface UserRepository extends MongoRepository<User, String>,PagingAndS
 	@Query("{ 'user_name' : {$regex: ?0 } }")
 	public Page<User> getUserSpecificName(String search,Pageable page);
 
-//	@Query("{ 'user_name': { $regex: '\\b' + ?0 + '\\b' } }") 
-//	List<User> getUserSearchDetails(String search);
+	@Query("{'user_age' : {$gt: ?0 } }")
+	List<User> getUserGreaterThanAge(Integer age);
 
+	@Query("{ $or : [{'user_age' : ?0},{'user_age' : ?1}] }")
+	public List<User> findUserOrOperator(int age1,int age2);
+
+	@Query("{ 'user_age' : {'$ne': ?0 }}")
+	public List<User> findUserNotOperator(int user_age);
+	
+	//Evaluation ::::: where,regex, text
+	
 }
